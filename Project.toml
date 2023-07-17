@@ -1,7 +1,7 @@
 name = "RitSpls"
 uuid = "3ede0511-6366-4a84-9f28-defd1d710745"
 authors = ["Luca Insolia, Sven Serneels"]
-version = "1.0.0-DEV"
+version = "1.0.0-DEV.3"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
