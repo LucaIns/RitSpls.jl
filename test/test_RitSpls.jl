@@ -21,7 +21,7 @@ module TestRitSpls
     Xpp = gsspp_spls_sol
 
     ywrap = RitSpls.wrap(yf) 
-    ypp = ywrap.wrapX[1]
+    ypp = ywrap.wrapX_
     
     snipreg = RitSpls.SPLS();
     RitSpls.set_params_dict!(snipreg, Dict(:fit_algorithm=>"snipls",

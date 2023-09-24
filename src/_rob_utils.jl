@@ -261,7 +261,7 @@ function wrap_univ(y, b=1.5, c = 4, q1 = 1.540793, q2 = 0.8622731, locest="media
   returns:
     xi: output vector with wrapped data
   note:
-    b = 1.5 and c = 4 to achieve a BdP of approx 15% for normal data
+    b = 1.5 and c = 4 to achieve an efficiency of approx 85% for normal data
   """
   xi,locX,scaleX = autoscale(y,locest,scalest)
   indMid = findall((abs.(xi) .< c) .& ((abs.(xi) .>= b)))
@@ -272,18 +272,23 @@ function wrap_univ(y, b=1.5, c = 4, q1 = 1.540793, q2 = 0.8622731, locest="media
   return(wrapX=xi,locX=locX,scaleX=scaleX,indMid=indMid,indHigh=indHigh)
 end
 
+
 function wrap(Y, b=1.5, c=4, q1=1.540793, q2=0.8622731, locest="median", scalest=mad)
   """
-  # Univariate warapping transformation
+  # Muultiple univariate warapping transformations
   # (see: https://rdrr.io/cran/cellWise/src/R/Wrap.R)
   args:
-    y: input vector
+    Y: p-variate input (column-wise transformation)
   returns:
     xi: output vector with wrapped data
   note:
-    b = 1.5 and c = 4 to achieve a BdP of approx 15% for normal data
+    b = 1.5 and c = 4 to achieve an efficiency of approx 85% for normal data
   """
-  p = size(Y)[2]
+  if isa(Y, Vector)
+    p = 1
+  else
+    p = size(Y)[2]
+  end
   xi = Array{Vector{Float64}}(undef, p, 1) 
   locX = Array{Float64}(undef, p, 1) 
   scaleX = Array{Float64}(undef, p, 1) 
@@ -292,6 +297,10 @@ function wrap(Y, b=1.5, c=4, q1=1.540793, q2=0.8622731, locest="median", scalest
   for j=1:p
     (xi[j],locX[j],scaleX[j],indMid[j],indHigh[j]) = wrap_univ(Y[:,j], b, c, q1, q2, locest, scalest)
   end
-
-  return(wrapX=xi,locX=locX,scaleX=scaleX,indMid=indMid,indHigh=indHigh)
+  if p==1
+    return(wrapX_=xi[], locX_=locX[], scaleX_=scaleX[], indMid_=indMid[], indHigh_=indHigh[])
+  else  
+    return(wrapX_=xi, locX_=locX, scaleX_=scaleX, indMid_=indMid, indHigh_=indHigh)
+  end
+  
 end

@@ -105,3 +105,26 @@ function _predict_check(self,Xn)
     return(Xn,nxn,pxn)
 
 end #_predict_check
+
+function accuracy_metrics(x, x_true)
+  """
+  compute accuracy metrics such as TP, FP, TN, FN, precision, recall, F1-score
+    - x = estimated vector (non-necessarily boolean)
+    - x_true = ground-truth vector (non-necessarily boolean)
+  """
+  if any(isnan.(x))
+    return(TP=NaN, FP=NaN, TN=NaN, FN=NaN, precis=NaN, recall=NaN, F1score=NaN, specif=NaN)
+  else
+    x = x.!=0;
+    x_true = x_true.!=0;
+    TP = sum(x[x_true]);
+    FP = sum(x[x_true.==0]);
+    TN = sum(x[x_true.==0].==0);
+    FN = sum(x[x_true].==0);
+    precis = TP/(TP+FP);
+    recall = TP/(TP+FN);
+    F1score = 2/((1/recall)+(1/precis));
+    specif = TN/(TN+FP);
+    return(TP=TP, FP=FP, TN=TN, FN=FN, precis=precis, recall=recall, F1score=F1score, specif=specif)
+  end
+end
