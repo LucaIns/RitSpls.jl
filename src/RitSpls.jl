@@ -15,5 +15,5 @@ import Optim: optimize, minimizer, LBFGS
     include("spls_sklearn.jl")
     export RitSpls, GSSPP, SPLS, wrap, autoscale, set_params_dict!, mad, fit_if,
         sid, mean_squared_error, mean_absolute_error, r2, maximum_absolute_error,
-        kstepLTS, l1median, autoscale
+        kstepLTS, l1median, predict_all, asv
 end

@@ -319,6 +319,7 @@ function fit!(self::SPLS,X,y)
     setfield!(self,:all_residuals_,allr)
     setfield!(self,:x_Rweights_,R)
     setfield!(self,:colret_,colret)
+    setfield!(self,:Xs_,Xs)
     setfield!(self,:ys_,ys)
     setfield!(self,:x_loc_,mX)
     setfield!(self,:y_loc_,my)
@@ -495,6 +496,10 @@ end
 
 function fit_if(self::SPLS,X,y,xi,yi)
 
+    if self.fit_algorithm != "shelland"
+        throw("ASV requires Sparse Helland fit, please change fit_algorithm")
+    end
+
     if self.x_Helland_weights_ == nothing
         set_params_dict(self,Dict(:fit_algorithm=>"shelland"))
         fit!(self,X,y)
@@ -516,6 +521,10 @@ end
 
 function sid(self::SPLS,X,y)
 
+    if self.fit_algorithm != "shelland"
+        throw("ASV requires Sparse Helland fit, please change fit_algorithm")
+    end
+
     n,p = size(X)
     all_if = zeros(p,n)
     for i = 1:n
@@ -526,6 +535,10 @@ function sid(self::SPLS,X,y)
 end
 
 function asv(self::SPLS,X,y)
+
+    if self.fit_algorithm != "shelland"
+        throw("ASV requires Sparse Helland fit, please change fit_algorithm")
+    end
 
     n,p = size(X)
     all_if = zeros(p,n)
