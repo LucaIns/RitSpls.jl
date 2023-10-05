@@ -286,7 +286,7 @@ function fit!(self::SPLS,X,y)
     if self.centre != "none"
         intercept = mapslices(self.centre,y .- yp_rescaled,dims=1)
     else
-        intercept = mean(y .- yp_rescaled)
+        intercept = mapslices(mean, y .- yp_rescaled, dims=1)
     end
 
     yfit = yp_rescaled .+ intercept
