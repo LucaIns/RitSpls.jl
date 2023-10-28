@@ -123,7 +123,7 @@ function ss(dd, p, args...)
   prec = 1e-10
   dd = max.(dd,prec)
   xi = 1 ./ dd
-  return(xi=xi)
+  return(xi, nothing, nothing)
 end
 
 function shell(dd, p,n,d_hmed=nothing,cutoff=nothing,h=Int(floor(n*0.75)))
